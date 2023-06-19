@@ -1,38 +1,61 @@
-
-<app-body>
-    <mat-stepper orientation="vertical" [linear]="true" color="primary" #stepper>
-        <mat-step [stepControl]="firstFormGroup" >
-            <form [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Fill out your name</ng-template>
-                <mat-form-field>
-                    <mat-label>Name</mat-label>
-                    <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
-                <ng-template matStepLabel>Fill out your address</ng-template>
-                <mat-form-field>
-                    <mat-label>Address</mat-label>
-                    <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
-            <p>You are now done.</p>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-            </div>
-        </mat-step>
-    </mat-stepper>
+<app-body class="app-main">
+  <mat-stepper orientation="vertical" [linear]="true" color="primary" #stepper>
+    <mat-step [stepControl]="firstFormGroup" *ngFor="let tujuan of tujuan2; index as i">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Masukkan rencana tujuan</ng-template>
+        <mat-form-field>
+          <mat-label>Nama Tempat </mat-label>
+          <input
+            matInput
+            placeholder="Masukkan nama tempat"
+            formControlName="nama_tempat"
+            value="{{tujuan2[i].nama_tempat}}"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" required="" formControlName="tanggal"/>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Mulai pada</mat-label>
+          <input
+            matInput
+            placeholder="Masukkn waktu mulai"
+            formControlName="mulai_pada"
+            type="time"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Berakhir pada</mat-label>
+          <input
+            matInput
+            placeholder="Masukkn waktu akhir"
+            formControlName="akhir_pada"
+            type="time"
+            required
+          />
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+          <button *ngIf="tujuan2.length == i+1" mat-button (click)="addIndex()">Tambah Tujuan</button>
+        </div>
+      </form>
+    </mat-step>
+    
+    <mat-step>
+      <ng-template matStepLabel>Selesai</ng-template>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button mat-button>Simpan</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
 </app-body>
